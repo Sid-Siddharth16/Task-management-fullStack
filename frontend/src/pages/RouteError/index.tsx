@@ -1,7 +1,8 @@
 import { isRouteErrorResponse, Link, useRouteError } from "react-router";
+import { buttonClass } from "../../components/ui/Button/buttonClass";
+import { ErrorState } from "../../components/ui/ErrorState";
 import { ENV } from "../../config/env.config";
 import { ROUTES } from "../../constants/route.constant";
-import styles from "../NotFound/NotFound.module.css";
 
 // Router-level error boundary: catches render errors and failed lazy-chunk loads
 export default function RouteErrorPage() {
@@ -12,13 +13,19 @@ export default function RouteErrorPage() {
     : "Something went wrong while loading this page.";
 
   return (
-    <section role="alert" className={styles.wrapper}>
-      <h1 className={styles.code}>Oops</h1>
-      <p className={styles.text}>{message}</p>
+    <ErrorState
+      fullPage
+      role="alert"
+      code="Oops"
+      title="Something went wrong"
+      text={message}
+      actions={
+        <Link to={ROUTES.HOME} reloadDocument className={buttonClass()}>
+          Reload app
+        </Link>
+      }
+    >
       {ENV.IS_DEV && error instanceof Error && <pre>{error.stack}</pre>}
-      <Link to={ROUTES.HOME} reloadDocument>
-        Reload app
-      </Link>
-    </section>
+    </ErrorState>
   );
 }

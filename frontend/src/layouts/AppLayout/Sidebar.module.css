@@ -1,0 +1,162 @@
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  height: 100%;
+  padding: 16px 8px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.workspace {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 4px 8px 12px;
+}
+
+.workspaceTile {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  color: rgb(255 255 255 / 0.22);
+  background: linear-gradient(135deg, var(--color-brand-from), var(--color-brand-to));
+  border-radius: 6px;
+}
+
+.workspaceText {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.workspaceText strong,
+.workspaceText span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.workspaceText strong {
+  font-weight: 600;
+}
+
+.workspaceText span {
+  color: var(--color-text-subtle);
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.sidebar .mobileSearch {
+  display: none;
+  margin: 0 4px 8px;
+  width: auto;
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.sectionTitle {
+  padding: 4px 12px 6px;
+  color: var(--color-text-subtle);
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 16px;
+  text-transform: uppercase;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 36px;
+  padding: 0 8px 0 12px;
+  color: var(--color-text-muted);
+  border-radius: var(--radius-sm);
+  font-weight: 500;
+  text-decoration: none;
+}
+
+a.item:hover {
+  color: var(--color-text);
+  background: var(--color-hover);
+  text-decoration: none;
+}
+
+a.item:active {
+  background: var(--color-pressed);
+}
+
+a.item:focus-visible {
+  outline-offset: -2px;
+}
+
+.itemActive,
+a.itemActive:hover {
+  color: var(--color-selected-text);
+  background: var(--color-selected);
+}
+
+.itemActive::before {
+  content: "";
+  position: absolute;
+  top: 8px;
+  bottom: 8px;
+  left: 0;
+  width: 3px;
+  border-radius: 0 2px 2px 0;
+  background: var(--color-selected-text);
+}
+
+.itemIcon {
+  display: flex;
+  flex-shrink: 0;
+}
+
+.itemLabel {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.itemDisabled {
+  color: var(--color-text-disabled);
+  cursor: default;
+}
+
+.footer {
+  margin-top: auto;
+  padding: 16px 12px 4px;
+  color: var(--color-text-subtle);
+  font-size: 12px;
+  line-height: 16px;
+}
+
+@media (max-width: 640px) {
+  .sidebar .mobileSearch {
+    display: flex;
+  }
+}

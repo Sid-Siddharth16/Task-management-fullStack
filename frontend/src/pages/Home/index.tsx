@@ -1,65 +1,92 @@
+import { Button } from "../../components/ui/Button";
+import { Card } from "../../components/ui/Card";
+import { Icon } from "../../components/ui/Icon";
 import { ENV } from "../../config/env.config";
 import { useApiStatus } from "../../hooks/useApiStatus";
 import { formatUptime } from "./home.helper";
 import styles from "./Home.module.css";
 
+// System health gadget (used on the admin console)
 export default function HomePage() {
   const apiStatus = useApiStatus();
+  const loading = apiStatus.status === "loading";
 
   return (
-    <section className={styles.card} aria-labelledby="api-status-title">
-      <div className={styles.cardHeader}>
-        <h1 id="api-status-title" className={styles.title}>
-          Backend connection
-        </h1>
-        <StatusBadge state={apiStatus.status} />
-      </div>
-
+    <Card
+      title="Backend connection"
+      meta={<StatusBadge state={apiStatus.status} />}
+      actions={
+        <Button
+          variant="secondary"
+          size="sm"
+          onClick={apiStatus.retry}
+          disabled={loading}
+          iconBefore={<Icon name="refresh" size={14} />}
+        >
+          {loading ? "Checking…" : "Check again"}
+        </Button>
+      }
+    >
       <p className={styles.subtitle}>
         Requests go to <code>{ENV.API_BASE_URL}</code>
       </p>
 
-      {apiStatus.status === "loading" && <p className={styles.muted}>Checking API…</p>}
+      {loading && (
+        <div className={styles.skeleton} aria-hidden="true">
+          {[0, 1, 2, 3].map((i) => (
+            <span key={i} />
+          ))}
+        </div>
+      )}
+      {loading && <p className="visually-hidden">Checking API…</p>}
 
       {apiStatus.status === "error" && (
         <div role="alert" className={styles.error}>
-          <strong>Could not reach the API.</strong> {apiStatus.error.message}
-          {apiStatus.error.status > 0 && (
-            <span className={styles.muted}> (HTTP {apiStatus.error.status})</span>
-          )}
+          <Icon name="error" size={20} />
+          <div>
+            <strong>Could not reach the API.</strong> {apiStatus.error.message}
+            {apiStatus.error.status > 0 && (
+              <span className={styles.muted}> (HTTP {apiStatus.error.status})</span>
+            )}
+          </div>
         </div>
       )}
 
       {apiStatus.status === "success" && (
         <dl className={styles.details}>
-          <dt>API</dt>
-          <dd>{apiStatus.info.name}</dd>
-          <dt>Version</dt>
-          <dd>{apiStatus.info.version}</dd>
-          <dt>Environment</dt>
-          <dd>{apiStatus.info.environment}</dd>
-          <dt>Database</dt>
-          <dd
-            className={apiStatus.health.db === "connected" ? styles.textSuccess : styles.textDanger}
-          >
-            {apiStatus.health.db}
-          </dd>
-          <dt>Uptime</dt>
-          <dd>{formatUptime(apiStatus.health.uptime)}</dd>
-          <dt>Server time</dt>
-          <dd>{new Date(apiStatus.info.timestamp).toLocaleString()}</dd>
+          <div>
+            <dt>API</dt>
+            <dd>{apiStatus.info.name}</dd>
+          </div>
+          <div>
+            <dt>Version</dt>
+            <dd>{apiStatus.info.version}</dd>
+          </div>
+          <div>
+            <dt>Environment</dt>
+            <dd>{apiStatus.info.environment}</dd>
+          </div>
+          <div>
+            <dt>Database</dt>
+            <dd
+              className={
+                apiStatus.health.db === "connected" ? styles.textSuccess : styles.textDanger
+              }
+            >
+              {apiStatus.health.db}
+            </dd>
+          </div>
+          <div>
+            <dt>Uptime</dt>
+            <dd>{formatUptime(apiStatus.health.uptime)}</dd>
+          </div>
+          <div>
+            <dt>Server time</dt>
+            <dd>{new Date(apiStatus.info.timestamp).toLocaleString()}</dd>
+          </div>
         </dl>
       )}
-
-      <button
-        type="button"
-        className={styles.button}
-        onClick={apiStatus.retry}
-        disabled={apiStatus.status === "loading"}
-      >
-        {apiStatus.status === "loading" ? "Checking…" : "Check again"}
-      </button>
-    </section>
+    </Card>
   );
 }
 

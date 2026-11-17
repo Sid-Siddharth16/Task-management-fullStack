@@ -7,6 +7,7 @@ import { env } from "./config/env.js";
 import { API_PREFIX } from "./constants.js";
 import routes from "./routes/index.js";
 import { apiLimiter } from "./middlewares/rateLimit.js";
+import { originCheck } from "./middlewares/originCheck.js";
 import { notFound } from "./middlewares/notFound.js";
 import { errorHandler } from "./middlewares/errorHandler.js";
 
@@ -26,7 +27,7 @@ if (env.NODE_ENV !== "test") {
   app.use(morgan(env.NODE_ENV === "production" ? "combined" : "dev"));
 }
 
-app.use("/api", apiLimiter);
+app.use("/api", apiLimiter, originCheck);
 app.use(API_PREFIX, routes);
 
 app.use(notFound);

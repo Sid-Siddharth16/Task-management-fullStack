@@ -4,4 +4,16 @@ export const API_ENDPOINTS = {
     INFO: "/",
     HEALTH: "/health",
   },
+  AUTH: {
+    SIGNUP: "/auth/signup",
+    LOGIN: "/auth/login",
+    REFRESH: "/auth/refresh",
+    LOGOUT: "/auth/logout",
+    ME: "/auth/me",
+    FORGOT_PASSWORD: "/auth/forgot-password",
+    RESET_PASSWORD: "/auth/reset-password",
+  },
+  USERS: {
+    LIST: "/users",
+  },
 } as const;

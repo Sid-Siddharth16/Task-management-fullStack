@@ -37,6 +37,23 @@ export function errorHandler(
     statusCode = 409;
     const fields = Object.keys((err as { keyValue?: object }).keyValue ?? {});
     message = `${fields.join(", ") || "Resource"} already exists`;
+  } else if (
+    err &&
+    typeof err === "object" &&
+    "type" in err &&
+    "status" in err &&
+    typeof err.status === "number" &&
+    err.status >= 400 &&
+    err.status < 500
+  ) {
+    // body-parser errors: malformed JSON (400), payload too large (413), etc.
+    statusCode = err.status;
+    message =
+      err.type === "entity.parse.failed"
+        ? "Malformed JSON in request body"
+        : err.type === "entity.too.large"
+          ? "Request body is too large"
+          : "Bad request";
   }
 
   if (statusCode >= 500) console.error(err);

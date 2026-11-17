@@ -1,0 +1,145 @@
+.userMenu {
+  position: relative;
+  display: flex;
+}
+
+.trigger {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  background: transparent;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.trigger:hover .avatar,
+.trigger[aria-expanded="true"] .avatar {
+  box-shadow:
+    0 0 0 2px var(--color-surface),
+    0 0 0 4px var(--color-border-strong);
+}
+
+.trigger[aria-expanded="true"] .avatar {
+  box-shadow:
+    0 0 0 2px var(--color-surface),
+    0 0 0 4px var(--color-primary);
+}
+
+.avatar,
+.avatarLarge {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  border-radius: 50%;
+  color: #fff;
+  font-weight: 600;
+  background: linear-gradient(135deg, var(--color-brand-from), var(--color-brand-to));
+  transition: box-shadow 0.1s ease;
+}
+
+.avatar {
+  width: 28px;
+  height: 28px;
+  font-size: 11px;
+}
+
+.avatarLarge {
+  width: 40px;
+  height: 40px;
+  font-size: 14px;
+}
+
+.dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  z-index: 40;
+  width: min(300px, calc(100vw - 24px));
+  padding: 8px 0;
+  background: var(--color-surface-overlay);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-lg);
+}
+
+.heading {
+  padding: 4px 16px 8px;
+  color: var(--color-text-subtle);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.profile {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 4px 16px 8px;
+}
+
+.identity {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.identity strong,
+.identity span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.identity strong {
+  font-weight: 500;
+}
+
+.identity span {
+  color: var(--color-text-subtle);
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.roleRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 16px;
+  color: var(--color-text-subtle);
+  font-size: 12px;
+}
+
+.divider {
+  height: 1px;
+  margin: 6px 0;
+  background: var(--color-border);
+}
+
+.menuItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 8px 16px;
+  color: var(--color-text);
+  background: transparent;
+  border: none;
+  border-left: 2px solid transparent;
+  text-align: left;
+  cursor: pointer;
+}
+
+.menuItem:hover:not(:disabled),
+.menuItem:focus-visible {
+  background: var(--color-hover);
+  border-left-color: var(--color-primary);
+  outline: none;
+}
+
+.menuItem:disabled {
+  color: var(--color-text-disabled);
+  cursor: progress;
+}
